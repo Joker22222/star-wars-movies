@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import CoreData
 
 @main
 struct StarWarsMoviesApp: App {
     var body: some Scene {
         WindowGroup {
-            StarWarsMoviesList()
+            StarWarsMoviesList(viewModel: StarWarsMoviesListViewModel(movies: nil))
         }
     }
 }

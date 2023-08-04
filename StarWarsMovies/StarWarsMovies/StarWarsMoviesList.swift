@@ -1,204 +1,96 @@
-//
-//  ContentView.swift
-//  StarWarsMovies
-//
-//  Created by Fernando Garay on 02/08/2023.
-//
-
-//import SwiftUI
-//import CoreData
-//
-//class StarWarsMoviesListViewModel: ObservableObject {
-//
-//    @Published var savedEntities: [MoviesEntity] = []
-//    let container: NSPersistentContainer
-//
-//    init() {
-//        container = NSPersistentContainer(name: "StarWarsMoviesContainer")
-//        container.loadPersistentStores { description, error in
-//            if let error = error {
-//                print("Error loading Core Data. \(error)")
-//            }
-//            fetchMovies()
-//        }
-//
-//        func fetchMovies() {
-//            let request = NSFetchRequest<MoviesEntity>(entityName: "MoviesEntity")
-//            do {
-//                try savedEntities = container.viewContext.fetch(request)
-//            } catch let error {
-//                print("Error fetching. \(error)")
-//            }
-//        }
-//
-//        func addMovie(movie: Movie) {
-//            let newMovie = MoviesEntity(context: container.viewContext)
-//            newMovie.imdbID = movie.imdbID
-//            newMovie.title = movie.title
-//            newMovie.actors = movie.actors
-//            newMovie.imgPoster = movie.imgPoster
-//            saveData()
-//        }
-//
-//        func saveData(){
-//            do {
-//                try container.viewContext.save()
-//                fetchMovies()
-//            } catch let error {
-//                print("Error saving. \(error)")
-//            }
-//        }
-//    }
-//}
-//
-//struct StarWarsMoviesList: View {
-//
-//    @StateObject var viewModel = StarWarsMoviesListViewModel()
-//
-//    var body: some View {
-//        NavigationView {
-//            VStack(spacing: 20) {
-//            }
-//        }
-//    }
-//}
-//
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StarWarsMoviesList()
-//    }
-//}
-
 
 import SwiftUI
-import CoreData
-import WebKit
-
-class StarWarsMoviesListViewModel: ObservableObject {
-    
-    @Published var movies: [Movie] = []
-    @Published var isLoading: Bool = false
-    @Published var showAlert: Bool = false
-    @Published var alertMessage: String = ""
-    
-    let service = StarWarsMoviesService()
-    let coreDataHandler = CoreDataHandler()
-    
-    init() {
-        fetchMovies()
-    }
-    
-    func fetchMovies() {
-        isLoading = true
-        service.fetchMovies { [weak self] movies, error in
-            guard let self = self else { return }
-            
-            self.isLoading = false
-            if let error = error {
-                self.showAlert = true
-                self.alertMessage = "Error al cargar los datos: \(error.localizedDescription)"
-            } else if let movies = movies {
-                // Si hay datos nuevos, los guardamos en Core Data si aún no existen
-                if self.coreDataHandler.getMovies().isEmpty {
-                    for movie in movies {
-                        self.coreDataHandler.addMovie(movie: movie)
-                    }
-                }
-                // Actualizamos la lista de películas en el ViewModel
-                self.movies = movies
-            }
-        }
-    }
-}
 
 struct StarWarsMoviesList: View {
+    @StateObject var viewModel = StarWarsMoviesListViewModel(movies: nil)
     
-    @StateObject var viewModel = StarWarsMoviesListViewModel()
+    init(viewModel: StarWarsMoviesListViewModel) {
+        _viewModel = .init(wrappedValue: viewModel)
+    }
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
-                if viewModel.isLoading {
-                    ProgressView()
-                } else {
-                    List(viewModel.movies) { movie in
-                        VStack(alignment: .leading) {
-                            Text(movie.title)
-                                .font(.title)
-                            Text(movie.actors)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                            
-                        }
-                        
-                    }
-                }
+            List(viewModel.movies) { movie in
+                MovieRow(viewModel: MovieRowViewModel(movie: movie))
             }
-            .alert(isPresented: $viewModel.showAlert) {
-                Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
-            }
+            .navigationTitle("Star Wars Movies")
         }
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        StarWarsMoviesList()
+        StarWarsMoviesList(viewModel: StarWarsMoviesListViewModel(movies: [Movie(title: "Rogue One", imdbId: "", actors: "", imgPoster: "")]))
     }
 }
 
-// Capa de networking para la API
-struct StarWarsMoviesService {
-    let baseURL = "https://search.imdbot.workers.dev"
+struct MovieDetailsView: View {
+    @ObservedObject var viewModel: MovieDetailsViewModel
     
-    func fetchMovies(completion: @escaping ([Movie]?, Error?) -> Void) {
-        guard let url = URL(string: "\(baseURL)?q=Star%20Wars") else {
-            completion(nil, NSError(domain: "Invalid URL", code: -1, userInfo: nil))
-            return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(nil, error)
-                return
+    var body: some View {
+        VStack {
+            if let movieDetails = viewModel.movieDetails {
+                Text(movieDetails.short.name)
+                    .font(.title)
+                    .padding()
+                Text(movieDetails.short.movieDescription)
+                    .padding()
+            } else {
+                ProgressView()
             }
-            
-            if let data = data {
-                do {
-                    let decoder = JSONDecoder()
-                    let result = try decoder.decode(Result.self, from: data)
-                    completion(result.description, nil)
-                } catch {
-                    completion(nil, error)
+        }
+    }
+}
+
+class MovieRowViewModel: ObservableObject {
+    let movie: Movie
+    var imdbId: String {
+        movie.imdbId
+    }
+    
+    init(movie: Movie) {
+        self.movie = movie
+    }
+}
+
+struct MovieRow: View {
+    @StateObject private var viewModel: MovieRowViewModel
+    
+    init(viewModel: MovieRowViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
+    
+    var body: some View {
+        NavigationLink(destination: MovieDetailsView(viewModel: MovieDetailsViewModel(imdbId: viewModel.imdbId))) {
+            HStack(spacing: 10) {
+                // Poster Image (assuming you have a method to load the image from URL)
+                AsyncImage(url: URL(string: viewModel.movie.imgPoster)) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 60, height: 90) // Adjust the size of the poster thumbnail
+                        .cornerRadius(10)
+                } placeholder: {
+                    Color.gray // Placeholder while loading the image
+                        .frame(width: 60, height: 90)
+                        .cornerRadius(10)
+                }
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(viewModel.movie.title)
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    
+                    Text(viewModel.movie.actors)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
                 }
             }
-        }.resume()
-    }
-}
-
-struct Result: Codable {
-    let ok: Bool
-    let description: [Movie]
-    let errorCode: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case ok
-        case description
-        case errorCode = "error_code"
+            .padding(.vertical, 8)
+        }
     }
 }
 
 
-// Métodos de Core Data
-class CoreDataHandler {
-    func addMovie(movie: Movie) {
-        // Aquí implementa la lógica para guardar la película en Core Data
-    }
-    
-    func getMovies() -> [Movie] {
-        // Aquí implementa la lógica para obtener las películas guardadas en Core Data
-        return []
-    }
-    
-    // Puedes agregar más métodos según tus necesidades, como actualizar o eliminar películas.
-}
+
