@@ -31,17 +31,38 @@ struct MovieDetailsView: View {
     var body: some View {
         VStack {
             if let movieDetails = viewModel.movieDetails {
-                Text(movieDetails.short.name)
-                    .font(.title)
-                    .padding()
-                Text(movieDetails.short.movieDescription)
-                    .padding()
+                VStack(spacing: 16) {
+                    AsyncImage(url: URL(string: viewModel.movieDetails?.short.image ?? "")) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: 300)
+                    .padding(.top, 16)
+                    
+                    Text(movieDetails.short.name)
+                        .font(.title)
+                        .bold()
+                    
+                    Text(movieDetails.short.movieDescription)
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                }
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.blue)
+                .cornerRadius(16)
+                .shadow(radius: 10)
             } else {
                 ProgressView()
             }
         }
     }
 }
+
 
 class MovieRowViewModel: ObservableObject {
     let movie: Movie

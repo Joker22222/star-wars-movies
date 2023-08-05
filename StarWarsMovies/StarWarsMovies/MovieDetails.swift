@@ -14,10 +14,12 @@ struct MovieDetails: Codable {
 
 struct ShortResponse: Codable {
     let name: String
+    let image: String
     let movieDescription: String
     
     enum CodingKeys: String, CodingKey {
         case name
+        case image
         case movieDescription = "description"
     }
 }

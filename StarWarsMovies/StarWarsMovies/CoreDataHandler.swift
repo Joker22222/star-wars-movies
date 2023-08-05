@@ -57,6 +57,7 @@ class CoreDataHandler {
         let newMovieDetails = MoviesDetailsEntity(context: container.viewContext)
         newMovieDetails.imdbId = details.imdbId
         newMovieDetails.name = details.short.name
+        newMovieDetails.image = details.short.image
         newMovieDetails.movieDescription = details.short.movieDescription
         do {
             try container.viewContext.save()
@@ -74,7 +75,7 @@ class CoreDataHandler {
             let movieDetailsEntities = try container.viewContext.fetch(request)
             
             return movieDetailsEntities.first.map {
-                return MovieDetails(short: ShortResponse(name: $0.name ?? "", movieDescription: $0.movieDescription ?? ""), imdbId: imdbId)
+                return MovieDetails(short: ShortResponse(name: $0.name ?? "", image: $0.image ?? "", movieDescription: $0.movieDescription ?? ""), imdbId: imdbId)
             }
         } catch {
             print("Error fetching movie details from Core Data. \(error)")
