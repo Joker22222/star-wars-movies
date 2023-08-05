@@ -5,6 +5,7 @@
         <attribute name="imdbId" optional="YES" attributeType="String"/>
         <attribute name="movieDescription" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="trailerUrl" optional="YES" attributeType="String"/>
     </entity>
     <entity name="MoviesEntity" representedClassName="MoviesEntity" syncable="YES" codeGenerationType="class">
         <attribute name="actors" optional="YES" attributeType="String"/>

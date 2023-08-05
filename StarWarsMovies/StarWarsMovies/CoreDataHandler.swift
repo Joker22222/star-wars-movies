@@ -42,7 +42,6 @@ class CoreDataHandler {
     }
     
     func getMovies() -> [Movie] {
-        // Aquí implementa la lógica para obtener las películas guardadas en Core Data
         let request = NSFetchRequest<MoviesEntity>(entityName: "MoviesEntity")
         do {
             let moviesEntities = try container.viewContext.fetch(request)
@@ -59,6 +58,7 @@ class CoreDataHandler {
         newMovieDetails.name = details.short.name
         newMovieDetails.image = details.short.image
         newMovieDetails.movieDescription = details.short.movieDescription
+        newMovieDetails.trailerUrl = details.short.trailer.embedUrl
         do {
             try container.viewContext.save()
         } catch {
@@ -68,14 +68,13 @@ class CoreDataHandler {
     }
     
     func getMovieDetails(imdbId: String) -> MovieDetails? {
-        // Implementa la lógica para obtener los detalles de la película con el IMDb ID dado
         let request = NSFetchRequest<MoviesDetailsEntity>(entityName: "MoviesDetailsEntity")
         request.predicate = NSPredicate(format: "imdbId == %@", imdbId)
         do {
             let movieDetailsEntities = try container.viewContext.fetch(request)
             
             return movieDetailsEntities.first.map {
-                return MovieDetails(short: ShortResponse(name: $0.name ?? "", image: $0.image ?? "", movieDescription: $0.movieDescription ?? ""), imdbId: imdbId)
+                return MovieDetails(short: ShortResponse(name: $0.name ?? "", image: $0.image ?? "", movieDescription: $0.movieDescription ?? "", trailer: Trailer(embedUrl: $0.trailerUrl ?? "")), imdbId: imdbId)
             }
         } catch {
             print("Error fetching movie details from Core Data. \(error)")

@@ -14,9 +14,14 @@ class MovieDetailsViewModel: ObservableObject {
     var imdbId: String
     private var cancellables = Set<AnyCancellable>()
     
-    init(imdbId: String) {
-        self.imdbId = imdbId
-        fetchMovieDetails()
+    init(imdbId: String, movieDetails: MovieDetails?) {
+        if let movieDetails = movieDetails {
+            self.movieDetails = movieDetails
+            self.imdbId = imdbId
+        } else {
+            self.imdbId = imdbId
+            fetchMovieDetails()
+        }
     }
     
     func fetchMovieDetails() {
