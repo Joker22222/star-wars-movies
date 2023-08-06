@@ -7,21 +7,19 @@ struct StarWarsMoviesList: View {
     init(viewModel: StarWarsMoviesListViewModel) {
         _viewModel = .init(wrappedValue: viewModel)
     }
-    
     var body: some View {
         NavigationView {
             List(viewModel.movies) { movie in
                 MovieRow(viewModel: MovieRowViewModel(movie: movie))
-            }
+            }.scrollContentBackground(.hidden)
             .navigationTitle("Star Wars Movies")
-        }
+        }.tint(.white)
     }
 }
 
-
 struct StarWarsMoviesList_Previews: PreviewProvider {
     static var previews: some View {
-        StarWarsMoviesList(viewModel: StarWarsMoviesListViewModel(movies: [Movie(title: "Rogue One", imdbId: "", actors: "", imgPoster: "")]))
+        StarWarsMoviesList(viewModel: StarWarsMoviesListViewModel(movies: [Movie(title: "Rogue One", imdbId: "", actors: "Dave Fiolini", imgPoster: "")]))
     }
 }
 
@@ -54,16 +52,18 @@ struct MovieRow: View {
                         .frame(width: 60, height: 90) // Adjust the size of the poster thumbnail
                         .cornerRadius(10)
                 } placeholder: {
-                    Color.gray // Placeholder while loading the image
-                        .frame(width: 60, height: 90)
-                        .cornerRadius(10)
+                    ZStack {
+                        Color.gray // Placeholder while loading the image
+                            .frame(width: 60, height: 90)
+                            .cornerRadius(10)
+                        ProgressView()
+                    }
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(viewModel.movie.title)
                         .font(.headline)
-                        .foregroundColor(.primary)
-                    
+                        .foregroundColor(Color("PrimaryColor"))
                     Text(viewModel.movie.actors)
                         .font(.subheadline)
                         .foregroundColor(.secondary)

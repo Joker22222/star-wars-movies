@@ -18,35 +18,38 @@ struct MovieDetailsView: View {
     }
     var body: some View {
         if let movieDetails = viewModel.movieDetails {
-            
-            
             VStack {
-                VStack(alignment: .center, spacing: 16) {
-                    
+                Spacer()
+                VStack(spacing: 15) {
                     Text(movieDetails.short.name)
-                        .font(.title)
+                        .font(.largeTitle)
                         .bold()
-                        .padding()
+                        .padding(.top)
                     Text(movieDetails.short.movieDescription)
                         .font(.body)
                         .multilineTextAlignment(.center)
-                        .padding()
+                        .padding(.init(top: 0, leading: 30, bottom: 20, trailing: 30))
                     VStack {
-                        Button("Trailer") {
+                        Button(action: {
                             isShowingTrailerPopup = true
+                        }) {
+                            Image(systemName: "play.circle.fill")
+                                .font(.system(size: 60))
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color("PrimaryColor"))
+                                .clipShape(Circle())
                         }
+                        Text("Play Trailer")
+                            .font(.title)
+                            .bold()
+                            .padding(.bottom, 40)
+                            .foregroundColor(Color("PrimaryColor"))
                     }
-                }.background(.gray.opacity(0.8))
+                }.frame(maxWidth: .infinity)
+                    .background(.gray.opacity(0.8))
                     .foregroundColor(.white)
-                    .padding(.top, 110)
-                    .clipShape(
-                        RoundedRectangle(
-                            cornerRadius: 20,
-                            style: .continuous
-                        )
-                    )
-                
-                Spacer()
+                    .ignoresSafeArea()
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(
                     AsyncImage(url: URL(string: viewModel.movieDetails?.short.image ?? "")) { image in
@@ -56,10 +59,8 @@ struct MovieDetailsView: View {
                     } placeholder: {
                         ProgressView()
                     }
-                )
-                .ignoresSafeArea()
+                ).ignoresSafeArea()
                 .sheet(isPresented: $isShowingTrailerPopup) {
-                    
                     ZStack {
                         ProgressView()
                         WebView(url: URL(string: movieDetails.short.trailer.embedUrl)!)
@@ -82,31 +83,31 @@ struct MovieDetailsView_Previews: PreviewProvider {
 
 struct WebView: UIViewRepresentable {
     let url: URL
-
+    
     func makeUIView(context: Context) -> WKWebView {
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
-
+        configuration.mediaTypesRequiringUserActionForPlayback = [.video]
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.navigationDelegate = context.coordinator // Set the navigation delegate
         let request = URLRequest(url: url)
         webView.load(request)
-
+        
         return webView
     }
-
+    
     func updateUIView(_ uiView: WKWebView, context: Context) {
         uiView.scrollView.isScrollEnabled = false
         uiView.isHidden = true
     }
-
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(self) // Pass the WebView instance to the coordinator
     }
-
+    
     class Coordinator: NSObject, WKNavigationDelegate {
         let webView: WebView // Store the WebView instance
-
+        
         init(_ webView: WebView) {
             self.webView = webView
         }
