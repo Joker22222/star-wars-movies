@@ -57,9 +57,7 @@ class StarWarsMoviesListViewModel: ObservableObject {
                     .eraseToAnyPublisher()
             }
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                guard let self = self else { return }
-            
+            .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
                     break
@@ -71,7 +69,7 @@ class StarWarsMoviesListViewModel: ObservableObject {
                 // Save movie details to Core Data
                 for details in movieDetails {
                     // Check if the details for this IMDb ID already exist in Core Data
-                    if self.coreDataHandler.getMovieDetails(imdbId: details.short.name) != nil {
+                    if self.coreDataHandler.getMovieDetails(imdbId: details.imdbId) != nil {
                         // Details already exist, skip saving
                         continue
                     }
