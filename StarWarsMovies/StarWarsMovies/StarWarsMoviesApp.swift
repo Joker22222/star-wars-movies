@@ -12,7 +12,7 @@ import CoreData
 struct StarWarsMoviesApp: App {
     var body: some Scene {
         WindowGroup {
-            StarWarsMoviesList(viewModel: StarWarsMoviesListViewModel(movies: nil))
+            StarWarsMoviesList(viewModel: StarWarsMoviesListViewModel(movies: nil)).environmentObject(NetworkMonitor.shared)
         }
     }
 }

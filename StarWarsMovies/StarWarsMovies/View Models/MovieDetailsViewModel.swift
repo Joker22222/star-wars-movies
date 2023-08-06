@@ -11,6 +11,9 @@ import Combine
 class MovieDetailsViewModel: ObservableObject {
     @Published var movieDetails: MovieDetails?
     let service = StarWarsMoviesService()
+    let playTrailerButtonText = "Play Trailer"
+    let primaryColorIdentifier = "PrimaryColor"
+    let circleShapeIdentifier = "play.circle.fill"
     var imdbId: String
     private var cancellables = Set<AnyCancellable>()
     

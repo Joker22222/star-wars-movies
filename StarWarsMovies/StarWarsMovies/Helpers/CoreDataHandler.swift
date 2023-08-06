@@ -9,24 +9,25 @@ import Foundation
 import CoreData
 
 class CoreDataHandler {
-    
-    //MARK: -1. PERSISTENT CONTROLLER
+// MARK: -1. PERSISTENT CONTROLLER
+
     static let shared = CoreDataHandler()
-    
-    //MARK: -1. PERSISTENT CONTAINER
+// MARK: -1. PERSISTENT CONTAINER
+
     let container: NSPersistentContainer
-    
-    //MARK: -1. INITIALIZATION
+
+// MARK: -1. INITIALIZATION
+
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "StarWarsMoviesContainer")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
-    
+
     func addMovie(movie: Movie) {
         let newMovie = MoviesEntity(context: container.viewContext)
         newMovie.actors = movie.actors
@@ -40,18 +41,19 @@ class CoreDataHandler {
             print("Error saving Movie \(nsError), \(nsError.userInfo)")
         }
     }
-    
+
     func getMovies() -> [Movie] {
         let request = NSFetchRequest<MoviesEntity>(entityName: "MoviesEntity")
         do {
             let moviesEntities = try container.viewContext.fetch(request)
+            // swiftlint:disable line_length
             return moviesEntities.map { Movie(title: $0.title ?? "", imdbId: $0.imdbId ?? "", actors: $0.actors ?? "", imgPoster: $0.imgPoster ?? "") }
         } catch {
             print("Error fetching movies from Core Data. \(error)")
             return []
         }
     }
-    
+
     func saveMovieDetailsToCoreData(details: MovieDetails) {
         let newMovieDetails = MoviesDetailsEntity(context: container.viewContext)
         newMovieDetails.imdbId = details.imdbId
@@ -66,14 +68,14 @@ class CoreDataHandler {
             print("Error saving Movie Details \(nsError), \(nsError.userInfo)")
         }
     }
-    
+
     func getMovieDetails(imdbId: String) -> MovieDetails? {
         let request = NSFetchRequest<MoviesDetailsEntity>(entityName: "MoviesDetailsEntity")
         request.predicate = NSPredicate(format: "imdbId == %@", imdbId)
         do {
             let movieDetailsEntities = try container.viewContext.fetch(request)
-            
             return movieDetailsEntities.first.map {
+                // swiftlint:disable line_length
                 return MovieDetails(short: ShortResponse(name: $0.name ?? "", image: $0.image ?? "", movieDescription: $0.movieDescription ?? "", trailer: Trailer(embedUrl: $0.trailerUrl ?? "")), imdbId: imdbId)
             }
         } catch {
@@ -82,4 +84,3 @@ class CoreDataHandler {
         }
     }
 }
-

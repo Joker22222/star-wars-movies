@@ -6,21 +6,23 @@
 //
 
 import Foundation
+import SwiftUI
 import Combine
 
-
 class StarWarsMoviesListViewModel: ObservableObject {
-    
+
     @Published var movies: [Movie] = []
-    @Published var isLoading: Bool = false
-    @Published var showAlert: Bool = false
-    @Published var alertMessage: String = ""
     @Published private var movieDetailsDictionary: [String: MovieDetails] = [:]
-    
+
     let service = StarWarsMoviesService()
     let coreDataHandler = CoreDataHandler()
-    private var cancellables = Set<AnyCancellable>()
+    let viewTitle = "Star Wars Movies"
+    let alertTitle = "No Internet Connection"
+    let alertMessage = "Internet connection lost, multimedia content won't be available until you restart your connection."
+    let alertDismissButton = "OK"
     
+    private var cancellables = Set<AnyCancellable>()
+
     init(movies: [Movie]?) {
         if let movies = movies {
             self.movies = movies
@@ -28,9 +30,8 @@ class StarWarsMoviesListViewModel: ObservableObject {
             fetchMoviesAndDetails()
         }
     }
-    
+
     func fetchMoviesAndDetails() {
-        isLoading = true
         service.fetchMovies()
             .receive(on: DispatchQueue.main)
             .flatMap { [weak self] movies -> AnyPublisher<[MovieDetails], Error> in
@@ -58,13 +59,12 @@ class StarWarsMoviesListViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
                 guard let self = self else { return }
-                
+            
                 switch completion {
                 case .finished:
                     break
                 case .failure(let error):
-                    self.showAlert = true
-                    self.alertMessage = "Error al cargar los datos: \(error.localizedDescription)"
+                    print("Error al cargar los datos: \(error.localizedDescription)")
                 }
             }, receiveValue: { [weak self] movieDetails in
                 guard let self = self else { return }
@@ -78,9 +78,7 @@ class StarWarsMoviesListViewModel: ObservableObject {
                     // Details do not exist, save them
                     self.coreDataHandler.saveMovieDetailsToCoreData(details: details)
                 }
-                self.isLoading = false
             })
             .store(in: &cancellables)
     }
-    
 }
