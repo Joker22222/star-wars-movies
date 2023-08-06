@@ -59,8 +59,13 @@ struct MovieDetailsView: View {
                 )
                 .ignoresSafeArea()
                 .sheet(isPresented: $isShowingTrailerPopup) {
-                                WebView(url: URL(string: movieDetails.short.trailer.embedUrl)!)
-                            }
+                    
+                    ZStack {
+                        ProgressView()
+                        WebView(url: URL(string: movieDetails.short.trailer.embedUrl)!)
+                            .frame(height: 220)
+                    }
+                }
         } else {
             ProgressView()
         }
@@ -79,21 +84,42 @@ struct WebView: UIViewRepresentable {
     let url: URL
 
     func makeUIView(context: Context) -> WKWebView {
-        let webView = WKWebView()
-        webView.navigationDelegate = context.coordinator
-        let request = URLRequest(url: URL(string: "https://imdb-video.media-imdb.com/vi1317709849/1434659607842-pgv4ql-1616202535791.mp4?Expires=1691252906&Signature=Rh1CVB9z3f9pwx5dwR8n1hva3MHQKasgWOrSzVI~z2YdXzIVOknUppqwh36rRiYii5vSClKmwj5pKSRQICrVIxhzb5oFf~6MIBZMnAlTdROgZYpdFwenIlzSL3X2ptguKAUsiBefTTbdqJOVDALybn327SWL-Oe80AaLbMvhCmX0S2-HBv48qq-C3I4xGE~slswD1QwW3eBm8qE5hJ5Q479agWMi1jrvGkHsBIMjeUCfSULa7Y7VKQURpuyiFS09YB4YkeAIAow63iIXWninD7tNzLm9acCZLslrZqZhsTFoqG4-PyNrPlLTGpCCCYM5MfR~6r0jYMk8aGafY5UoeQ__&Key-Pair-Id=APKAIFLZBVQZ24NQH3KA")!)
+        let configuration = WKWebViewConfiguration()
+        configuration.allowsInlineMediaPlayback = true
+
+        let webView = WKWebView(frame: .zero, configuration: configuration)
+        webView.navigationDelegate = context.coordinator // Set the navigation delegate
+        let request = URLRequest(url: url)
         webView.load(request)
+
         return webView
     }
 
-    func updateUIView(_ uiView: WKWebView, context: Context) {}
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        uiView.scrollView.isScrollEnabled = false
+        uiView.isHidden = true
+    }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(self) // Pass the WebView instance to the coordinator
     }
 
     class Coordinator: NSObject, WKNavigationDelegate {
-        // If you need to handle any navigation events or other delegate methods,
-        // you can add them here.
+        let webView: WebView // Store the WebView instance
+
+        init(_ webView: WebView) {
+            self.webView = webView
+        }
+        
+        func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            webView.evaluateJavaScript("document.getElementById('imdbHeader').remove();")
+            webView.evaluateJavaScript("""
+                var divVideoActionBar = document.querySelector('[data-testid="VideoActionBar"]');
+                            if (divVideoActionBar) {
+                                divVideoActionBar.remove();
+                }
+            """)
+            webView.isHidden = false
+        }
     }
 }
