@@ -14,8 +14,8 @@ class StarWarsMoviesListViewModel: ObservableObject {
     @Published var movies: [Movie] = []
     @Published private var movieDetailsDictionary: [String: MovieDetails] = [:]
 
-    let service = StarWarsMoviesService()
-    let coreDataHandler = CoreDataHandler()
+    private let service : StarWarsMoviesServiceProtocol
+    private let coreDataHandler : CoreDataHandlerProtocol
     let viewTitle = "Star Wars Movies"
     let alertTitle = "No Internet Connection"
     let alertMessage = "Internet connection lost, multimedia content won't be available until you restart your connection."
@@ -23,8 +23,11 @@ class StarWarsMoviesListViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
 
-    init(movies: [Movie]?) {
-        if let movies = movies {
+    init(movies: [Movie]?, service: StarWarsMoviesServiceProtocol, coreDataHandler: CoreDataHandlerProtocol) {
+        self.service = service
+        self.coreDataHandler = coreDataHandler
+        if let movies = movies
+        {
             self.movies = movies
         } else {
             fetchMoviesAndDetails()

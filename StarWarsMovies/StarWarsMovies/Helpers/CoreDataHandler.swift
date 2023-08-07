@@ -8,7 +8,14 @@
 import Foundation
 import CoreData
 
-class CoreDataHandler {
+protocol CoreDataHandlerProtocol {
+    func addMovie(movie: Movie)
+    func getMovies() -> [Movie]
+    func saveMovieDetailsToCoreData(details: MovieDetails)
+    func getMovieDetails(imdbId: String) -> MovieDetails?
+}
+
+class CoreDataHandler: CoreDataHandlerProtocol {
 // MARK: -1. PERSISTENT CONTROLLER
 
     static let shared = CoreDataHandler()

@@ -8,7 +8,12 @@
 import Foundation
 import Combine
 
-struct StarWarsMoviesService {
+protocol StarWarsMoviesServiceProtocol {
+    func fetchMovies() -> AnyPublisher<[Movie], Error>
+    func fetchMovieDetails(imdbId: String) -> AnyPublisher<MovieDetails, Error>
+}
+
+struct StarWarsMoviesService: StarWarsMoviesServiceProtocol {
     private let baseURL = "https://search.imdbot.workers.dev/"
     
     func fetchMovies() -> AnyPublisher<[Movie], Error> {

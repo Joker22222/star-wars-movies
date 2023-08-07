@@ -92,6 +92,6 @@ struct MovieDetailsView: View {
 
 struct MovieDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieDetailsView(viewModel: MovieDetailsViewModel(imdbId: "", movieDetails: MockData.mockMovieDetails))
+        MovieDetailsView(viewModel: MovieDetailsViewModel(imdbId: "", movieDetails: MockData.mockMovieDetails, service: StarWarsMoviesService(), coreDataHandler: CoreDataHandler.shared))
     }
 }

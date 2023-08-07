@@ -10,6 +10,10 @@ import Foundation
 struct MovieDetails: Codable {
     let short: ShortResponse
     let imdbId: String
+    
+    static func ==(lhs: MovieDetails, rhs: MovieDetails) -> Bool {
+        return lhs.imdbId == rhs.imdbId
+    }
 }
 
 struct ShortResponse: Codable {
@@ -29,3 +33,4 @@ struct ShortResponse: Codable {
 struct Trailer: Codable {
     let embedUrl: String
 }
+

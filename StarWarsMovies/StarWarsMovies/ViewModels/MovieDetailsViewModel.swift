@@ -10,14 +10,17 @@ import Combine
 
 class MovieDetailsViewModel: ObservableObject {
     @Published var movieDetails: MovieDetails?
-    let service = StarWarsMoviesService()
+    let service: StarWarsMoviesServiceProtocol
+    let coreDataHandler : CoreDataHandlerProtocol
     let playTrailerButtonText = "Play Trailer"
     let primaryColorIdentifier = "PrimaryColor"
     let circleShapeIdentifier = "play.circle.fill"
     var imdbId: String
     private var cancellables = Set<AnyCancellable>()
     
-    init(imdbId: String, movieDetails: MovieDetails?) {
+    init(imdbId: String, movieDetails: MovieDetails?, service: StarWarsMoviesServiceProtocol, coreDataHandler: CoreDataHandlerProtocol) {
+        self.coreDataHandler = coreDataHandler
+        self.service = service
         if let movieDetails = movieDetails {
             self.movieDetails = movieDetails
             self.imdbId = imdbId
@@ -29,7 +32,7 @@ class MovieDetailsViewModel: ObservableObject {
     
     func fetchMovieDetails() {
         // Check if movie details exist in Core Data
-        if let cachedDetails = CoreDataHandler.shared.getMovieDetails(imdbId: imdbId) {
+        if let cachedDetails = coreDataHandler.getMovieDetails(imdbId: imdbId) {
             movieDetails = cachedDetails
             return
         }
@@ -47,7 +50,7 @@ class MovieDetailsViewModel: ObservableObject {
             }, receiveValue: { [weak self] movieDetails in
                 self?.movieDetails = movieDetails
                 // Save movie details to Core Data
-                CoreDataHandler.shared.saveMovieDetailsToCoreData(details: movieDetails)
+                self?.coreDataHandler.saveMovieDetailsToCoreData(details: movieDetails)
             })
             .store(in: &cancellables)
     }

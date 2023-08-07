@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E737CD12A8079AA00A926F5 /* StarWarsMoviesDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E737CD02A8079AA00A926F5 /* StarWarsMoviesDetailsViewModelTests.swift */; };
+		2E826CEC2A803536006D9BEC /* MockStarWarsMoviesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E826CEB2A803536006D9BEC /* MockStarWarsMoviesService.swift */; };
+		2E826CEE2A80356C006D9BEC /* MockCoreDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E826CED2A80356C006D9BEC /* MockCoreDataHandler.swift */; };
 		2E854AC72A7FC368009F5347 /* MovieRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E854AC62A7FC368009F5347 /* MovieRowViewModel.swift */; };
 		2E854AC92A7FC415009F5347 /* MovieRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E854AC82A7FC415009F5347 /* MovieRow.swift */; };
 		2E854ACB2A7FC824009F5347 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E854ACA2A7FC824009F5347 /* WebView.swift */; };
@@ -16,7 +19,7 @@
 		2EB65E012A7AFCD60033995C /* StarWarsMoviesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB65E002A7AFCD60033995C /* StarWarsMoviesList.swift */; };
 		2EB65E032A7AFCD80033995C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EB65E022A7AFCD80033995C /* Assets.xcassets */; };
 		2EB65E062A7AFCD80033995C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EB65E052A7AFCD80033995C /* Preview Assets.xcassets */; };
-		2EB65E102A7AFCD80033995C /* StarWarsMoviesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB65E0F2A7AFCD80033995C /* StarWarsMoviesTests.swift */; };
+		2EB65E102A7AFCD80033995C /* StarWarsMoviesListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB65E0F2A7AFCD80033995C /* StarWarsMoviesListViewModelTests.swift */; };
 		2EB65E1A2A7AFCD80033995C /* StarWarsMoviesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB65E192A7AFCD80033995C /* StarWarsMoviesUITests.swift */; };
 		2EB65E1C2A7AFCD80033995C /* StarWarsMoviesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB65E1B2A7AFCD80033995C /* StarWarsMoviesUITestsLaunchTests.swift */; };
 		2EB65E2A2A7B01C90033995C /* StarWarsMoviesContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2EB65E282A7B01C90033995C /* StarWarsMoviesContainer.xcdatamodeld */; };
@@ -47,6 +50,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2E737CD02A8079AA00A926F5 /* StarWarsMoviesDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarWarsMoviesDetailsViewModelTests.swift; sourceTree = "<group>"; };
+		2E737CD22A8081EF00A926F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2E826CEB2A803536006D9BEC /* MockStarWarsMoviesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStarWarsMoviesService.swift; sourceTree = "<group>"; };
+		2E826CED2A80356C006D9BEC /* MockCoreDataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCoreDataHandler.swift; sourceTree = "<group>"; };
 		2E854AC62A7FC368009F5347 /* MovieRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRowViewModel.swift; sourceTree = "<group>"; };
 		2E854AC82A7FC415009F5347 /* MovieRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRow.swift; sourceTree = "<group>"; };
 		2E854ACA2A7FC824009F5347 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -58,7 +65,7 @@
 		2EB65E022A7AFCD80033995C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2EB65E052A7AFCD80033995C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2EB65E0B2A7AFCD80033995C /* StarWarsMoviesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarWarsMoviesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2EB65E0F2A7AFCD80033995C /* StarWarsMoviesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarWarsMoviesTests.swift; sourceTree = "<group>"; };
+		2EB65E0F2A7AFCD80033995C /* StarWarsMoviesListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarWarsMoviesListViewModelTests.swift; sourceTree = "<group>"; };
 		2EB65E152A7AFCD80033995C /* StarWarsMoviesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarWarsMoviesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EB65E192A7AFCD80033995C /* StarWarsMoviesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarWarsMoviesUITests.swift; sourceTree = "<group>"; };
 		2EB65E1B2A7AFCD80033995C /* StarWarsMoviesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarWarsMoviesUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -111,6 +118,8 @@
 				2EE657F02A7D75FF004795B2 /* CoreDataHandler.swift */,
 				2E854ACC2A7FC907009F5347 /* MockData.swift */,
 				2E854ACF2A7FD32F009F5347 /* NetworkMonitor.swift */,
+				2E826CEB2A803536006D9BEC /* MockStarWarsMoviesService.swift */,
+				2E826CED2A80356C006D9BEC /* MockCoreDataHandler.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -138,10 +147,11 @@
 		2EB65DFD2A7AFCD60033995C /* StarWarsMovies */ = {
 			isa = PBXGroup;
 			children = (
+				2E737CD22A8081EF00A926F5 /* Info.plist */,
 				2EB65DFE2A7AFCD60033995C /* StarWarsMoviesApp.swift */,
 				2EE657F82A7E69DC004795B2 /* Models */,
 				2EE657F72A7E69C0004795B2 /* Views */,
-				2EE657F62A7E697E004795B2 /* View Models */,
+				2EE657F62A7E697E004795B2 /* ViewModels */,
 				2E854AC42A7FC2E7009F5347 /* Networking */,
 				2E854AC52A7FC31F009F5347 /* Helpers */,
 				2EB65E022A7AFCD80033995C /* Assets.xcassets */,
@@ -162,7 +172,8 @@
 		2EB65E0E2A7AFCD80033995C /* StarWarsMoviesTests */ = {
 			isa = PBXGroup;
 			children = (
-				2EB65E0F2A7AFCD80033995C /* StarWarsMoviesTests.swift */,
+				2EB65E0F2A7AFCD80033995C /* StarWarsMoviesListViewModelTests.swift */,
+				2E737CD02A8079AA00A926F5 /* StarWarsMoviesDetailsViewModelTests.swift */,
 			);
 			path = StarWarsMoviesTests;
 			sourceTree = "<group>";
@@ -176,14 +187,14 @@
 			path = StarWarsMoviesUITests;
 			sourceTree = "<group>";
 		};
-		2EE657F62A7E697E004795B2 /* View Models */ = {
+		2EE657F62A7E697E004795B2 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				2EE657F22A7D771F004795B2 /* StarWarsMoviesListViewModel.swift */,
 				2EE657EE2A7D75B0004795B2 /* MovieDetailsViewModel.swift */,
 				2E854AC62A7FC368009F5347 /* MovieRowViewModel.swift */,
 			);
-			path = "View Models";
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		2EE657F72A7E69C0004795B2 /* Views */ = {
@@ -337,6 +348,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EE657EF2A7D75B0004795B2 /* MovieDetailsViewModel.swift in Sources */,
+				2E826CEE2A80356C006D9BEC /* MockCoreDataHandler.swift in Sources */,
 				2E854AC92A7FC415009F5347 /* MovieRow.swift in Sources */,
 				2E854ACB2A7FC824009F5347 /* WebView.swift in Sources */,
 				2EE657F12A7D75FF004795B2 /* CoreDataHandler.swift in Sources */,
@@ -351,6 +363,7 @@
 				2E854AC72A7FC368009F5347 /* MovieRowViewModel.swift in Sources */,
 				2EE657F32A7D771F004795B2 /* StarWarsMoviesListViewModel.swift in Sources */,
 				2EB65E302A7BC0440033995C /* MovieDetails.swift in Sources */,
+				2E826CEC2A803536006D9BEC /* MockStarWarsMoviesService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,7 +371,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EB65E102A7AFCD80033995C /* StarWarsMoviesTests.swift in Sources */,
+				2EB65E102A7AFCD80033995C /* StarWarsMoviesListViewModelTests.swift in Sources */,
+				2E737CD12A8079AA00A926F5 /* StarWarsMoviesDetailsViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,11 +526,14 @@
 				DEVELOPMENT_TEAM = R85NL68XY2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StarWarsMovies/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Star Wars Movies";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -541,11 +558,14 @@
 				DEVELOPMENT_TEAM = R85NL68XY2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StarWarsMovies/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Star Wars Movies";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
