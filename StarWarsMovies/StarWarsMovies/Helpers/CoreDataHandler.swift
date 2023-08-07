@@ -53,7 +53,6 @@ class CoreDataHandler: CoreDataHandlerProtocol {
         let request = NSFetchRequest<MoviesEntity>(entityName: "MoviesEntity")
         do {
             let moviesEntities = try container.viewContext.fetch(request)
-            // swiftlint:disable line_length
             return moviesEntities.map { Movie(title: $0.title ?? "", imdbId: $0.imdbId ?? "", actors: $0.actors ?? "", imgPoster: $0.imgPoster ?? "") }
         } catch {
             print("Error fetching movies from Core Data. \(error)")
@@ -82,7 +81,6 @@ class CoreDataHandler: CoreDataHandlerProtocol {
         do {
             let movieDetailsEntities = try container.viewContext.fetch(request)
             return movieDetailsEntities.first.map {
-                // swiftlint:disable line_length
                 return MovieDetails(short: ShortResponse(name: $0.name ?? "", image: $0.image ?? "", movieDescription: $0.movieDescription ?? "", trailer: Trailer(embedUrl: $0.trailerUrl ?? "")), imdbId: imdbId)
             }
         } catch {

@@ -59,7 +59,7 @@ struct MovieDetailsView: View {
                         }
                     }.onEnded { value in
                         withAnimation(.spring()) {
-                            if value.translation.height < 50 { // 50 is the threshold to reset the view
+                            if value.translation.height < 50 {
                                 offset = 0
                             } else {
                                 offset = 300

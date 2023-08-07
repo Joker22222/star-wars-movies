@@ -17,12 +17,11 @@ struct MovieRow: View {
     var body: some View {
         NavigationLink(destination: MovieDetailsView(viewModel: MovieDetailsViewModel(imdbId: viewModel.imdbId, movieDetails: nil, service: StarWarsMoviesService(), coreDataHandler: CoreDataHandler.shared))) {
             HStack(spacing: 10) {
-                // Poster Image (assuming you have a method to load the image from URL)
                 AsyncImage(url: URL(string: viewModel.movie.imgPoster)) { image in
                     image
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 60, height: 90) // Adjust the size of the poster thumbnail
+                        .frame(width: 60, height: 90)
                         .cornerRadius(10)
                 } placeholder: {
                     ZStack {

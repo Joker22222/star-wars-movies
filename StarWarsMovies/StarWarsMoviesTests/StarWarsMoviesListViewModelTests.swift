@@ -63,9 +63,6 @@ final class StarWarsMoviesListViewModelTests: XCTestCase {
     
     func testFetchMoviesAndDetails_SuccessfulFetch() {
         // Given
-        let mockService = MockStarWarsMoviesService()
-        let mockCoreDataHandler = MockCoreDataHandler()
-        let viewModel = StarWarsMoviesListViewModel(movies: nil, service: mockService, coreDataHandler: mockCoreDataHandler)
         
         // Set up the mock service to return some test movies and details
         let testMovies: [Movie] = [Movie(title: "Movie 1", imdbId: "tt000001", actors: "Actor 1", imgPoster: ""),
@@ -88,9 +85,9 @@ final class StarWarsMoviesListViewModelTests: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             // Then
             // Ensure that the movies and movie details are properly stored in the view model
-            XCTAssertEqual(viewModel.movies.count, 2)
-            XCTAssertEqual(mockCoreDataHandler.storedMovies.count, 2)
-            XCTAssertEqual(mockCoreDataHandler.storedMovieDetails.count, 2)
+            XCTAssertEqual(self.viewModel.movies.count, 2)
+            XCTAssertEqual(self.mockCoreDataHandler.storedMovies.count, 2)
+            XCTAssertEqual(self.mockCoreDataHandler.storedMovieDetails.count, 2)
             
             // Fulfill the expectation to indicate that the test is complete
             expectation.fulfill()
